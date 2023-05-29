@@ -1,0 +1,89 @@
+import pickle
+
+class Contact:
+    def __init__(self, name, phone, email):
+        self.name = name
+        self.phone = phone
+        self.email = email
+
+    def __str__(self):
+        return f"Name: {self.name}\nPhone: {self.phone}\nEmail: {self.email}"
+
+class ContactManager:
+    def __init__(self):
+        self.contacts = []
+
+    def add_contact(self, contact):
+        self.contacts.append(contact)
+
+    def remove_contact(self, contact):
+        self.contacts.remove(contact)
+
+    def search_contact(self, name):
+        for contact in self.contacts:
+            if contact.name == name:
+                return contact
+        return None
+
+    def save_contacts(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self.contacts, file)
+
+    def load_contacts(self, filename):
+        with open(filename, 'rb') as file:
+            self.contacts = pickle.load(file)
+
+def display_menu():
+    print("1. Add Contact")
+    print("2. Remove Contact")
+    print("3. Search Contact")
+    print("4. Save Contacts")
+    print("5. Load Contacts")
+    print("6. Exit")
+
+contact_manager = ContactManager()
+
+while True:
+    display_menu()
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        name = input("Enter name: ")
+        phone = input("Enter phone number: ")
+        email = input("Enter email: ")
+        contact = Contact(name, phone, email)
+        contact_manager.add_contact(contact)
+        print("Contact added successfully!")
+
+    elif choice == '2':
+        name = input("Enter name of the contact to remove: ")
+        contact = contact_manager.search_contact(name)
+        if contact:
+            contact_manager.remove_contact(contact)
+            print("Contact removed successfully!")
+        else:
+            print("Contact not found!")
+
+    elif choice == '3':
+        name = input("Enter name of the contact to search: ")
+        contact = contact_manager.search_contact(name)
+        if contact:
+            print(contact)
+        else:
+            print("Contact not found!")
+
+    elif choice == '4':
+        filename = input("Enter filename to save contacts: ")
+        contact_manager.save_contacts(filename)
+        print("Contacts saved successfully!")
+
+    elif choice == '5':
+        filename = input("Enter filename to load contacts: ")
+        contact_manager.load_contacts(filename)
+        print("Contacts loaded successfully!")
+
+    elif choice == '6':
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
