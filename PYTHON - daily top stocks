@@ -1,0 +1,46 @@
+import requests
+
+# Alpha Vantage API URL
+base_url = "https://www.alphavantage.co/query"
+
+# Function to fetch the top stocks
+def get_top_stocks(api_key):
+    # Parameters for API request
+    params = {
+        "function": "SECTOR",
+        "apikey": api_key,
+    }
+
+    try:
+        # Send GET request
+        response = requests.get(base_url, params=params)
+        data = response.json()
+
+        # Extract the top stocks
+        top_stocks = data["Rank B: 5 Day Performance"]["top"]
+        return top_stocks
+
+    except requests.exceptions.RequestException as e:
+        print("Error occurred during API request:", e)
+        return None
+
+# Main function
+def main():
+    # API key for Alpha Vantage (replace with your API key)
+    api_key = "YOUR_API_KEY"
+
+    # Fetch the top stocks
+    top_stocks = get_top_stocks(api_key)
+
+    if top_stocks:
+        print("Top Stocks of the Day:")
+        for stock in top_stocks:
+            symbol = stock["1. symbol"]
+            close_price = stock["5. price"]
+            print(f"Symbol: {symbol} | Close Price: {close_price}")
+
+# Run the script
+if __name__ == "__main__":
+    main()
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
