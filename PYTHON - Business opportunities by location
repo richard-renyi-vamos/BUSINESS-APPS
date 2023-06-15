@@ -1,0 +1,37 @@
+import requests
+import json
+
+def get_business_opportunities(api_key, location):
+    # Set up the API request URL
+    url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query=businesses+in+{location}&key={api_key}"
+
+    # Send the request to the Places API
+    response = requests.get(url)
+    data = json.loads(response.text)
+
+    # Extract the business opportunities from the response
+    opportunities = []
+    for result in data['results']:
+        name = result['name']
+        address = result['formatted_address']
+        opportunities.append({'Name': name, 'Address': address})
+
+    return opportunities
+
+def main():
+    api_key = 'YOUR_API_KEY'
+    location = input("Enter a location: ")
+
+    opportunities = get_business_opportunities(api_key, location)
+
+    # Display the business opportunities
+    print(f"Business Opportunities in {location}:")
+    for opportunity in opportunities:
+        print(f"Name: {opportunity['Name']}")
+        print(f"Address: {opportunity['Address']}")
+        print()
+
+if __name__ == '__main__':
+    main()
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
