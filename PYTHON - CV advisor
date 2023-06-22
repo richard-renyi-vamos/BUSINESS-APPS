@@ -1,0 +1,48 @@
+def get_cv_advice():
+    # Ask for user input
+    name = input("Enter your full name: ")
+    experience = input("Enter your total years of experience: ")
+    skills = input("Enter your key skills (comma-separated): ")
+    education = input("Enter your highest education degree: ")
+    achievements = input("Enter your notable achievements (comma-separated): ")
+
+    # Generate advice based on input
+    advice = f"CV Advice for {name}:\n\n"
+    
+    # Experience advice
+    if int(experience) < 2:
+        advice += "Consider gaining more experience to enhance your CV.\n"
+    elif int(experience) > 10:
+        advice += "Highlight your extensive experience to stand out from other candidates.\n"
+    
+    # Skills advice
+    skill_list = skills.split(',')
+    if len(skill_list) < 3:
+        advice += "Include more key skills to demonstrate your proficiency.\n"
+    
+    # Education advice
+    if education == "PhD":
+        advice += "Highlight your doctoral degree to showcase your expertise.\n"
+    elif education == "Master's":
+        advice += "Emphasize your master's degree to highlight your advanced knowledge.\n"
+    elif education == "Bachelor's":
+        advice += "Stress your bachelor's degree to demonstrate your educational foundation.\n"
+    else:
+        advice += "Consider pursuing higher education to enhance your qualifications.\n"
+    
+    # Achievements advice
+    achievement_list = achievements.split(',')
+    if len(achievement_list) > 0:
+        advice += "Highlight your notable achievements, such as:\n"
+        for achievement in achievement_list:
+            advice += f"- {achievement.strip()}\n"
+    else:
+        advice += "Include notable achievements to make your CV more impactful.\n"
+
+    return advice
+
+# Call the function to get the CV advice
+cv_advice = get_cv_advice()
+print(cv_advice)
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
