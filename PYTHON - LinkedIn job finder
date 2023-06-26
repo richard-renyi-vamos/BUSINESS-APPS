@@ -1,0 +1,18 @@
+import linkedin
+
+# Authenticate with the LinkedIn API
+authentication_token = "YOUR_AUTHENTICATION_TOKEN"  # Replace with your access token
+client = linkedin.LinkedInAPI(authentication_token)
+
+# Search for jobs based on specific parameters
+job_type = "Software Engineer"  # Replace with your desired job type
+job_results = client.search_jobs(job_title=job_type, count=10)
+
+# Display the top 10 job results
+for index, job in enumerate(job_results[:10], start=1):
+    print(f"Job #{index}: {job.title}")
+    print(f"Company: {job.company_name}")
+    print(f"Location: {job.location}")
+    print(f"Description: {job.description}\n")
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
