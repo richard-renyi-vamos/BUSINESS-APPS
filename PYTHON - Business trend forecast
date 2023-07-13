@@ -1,0 +1,43 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+
+# Assuming you have historical business data in a CSV file with two columns: 'Date' and 'Revenue'
+data = pd.read_csv('business_data.csv')
+
+# Convert 'Date' column to datetime format and set it as the index
+data['Date'] = pd.to_datetime(data['Date'])
+data.set_index('Date', inplace=True)
+
+# Plot the historical data
+plt.figure(figsize=(10, 6))
+plt.plot(data.index, data['Revenue'])
+plt.title('Historical Business Revenue')
+plt.xlabel('Year')
+plt.ylabel('Revenue')
+plt.show()
+
+# Split the data into train and test sets (e.g., 80% for training, 20% for testing)
+train_size = int(len(data) * 0.8)
+train_data = data[:train_size]
+test_data = data[train_size:]
+
+# Train the ARIMA model with the training data
+model = ARIMA(train_data, order=(1, 1, 1))  # Adjust the order according to your data
+model_fit = model.fit()
+
+# Make predictions for the next five years
+predictions = model_fit.predict(start=len(train_data), end=len(train_data) + len(test_data) + 4)
+
+# Plot the predicted values along with the actual values
+plt.figure(figsize=(10, 6))
+plt.plot(data.index, data['Revenue'], label='Actual')
+plt.plot(test_data.index, predictions, label='Predicted')
+plt.title('Business Revenue Prediction')
+plt.xlabel('Year')
+plt.ylabel('Revenue')
+plt.legend()
+plt.show()
+
+
+ # CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
