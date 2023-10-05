@@ -1,0 +1,53 @@
+import tkinter as tk
+from tkinter import ttk
+from tkinter import scrolledtext
+import serpapi
+
+# Function to fetch and display Google search results
+def fetch_google_results():
+    query = search_entry.get()
+    
+    # Initialize the SerpApi client with your API key
+    client = serpapi.GoogleSearchResults("YOUR_SERPAPI_API_KEY")
+
+    # Perform a Google search
+    results = client.get_json({"q": query})
+
+    # Clear the existing results
+    result_text.delete(1.0, tk.END)
+
+    # Display the top 10 results in the GUI
+    for i, result in enumerate(results['organic_results'][:10], 1):
+        title = result.get('title', '')
+        link = result.get('link', '')
+        snippet = result.get('snippet', '')
+
+        result_text.insert(tk.END, f"{i}. {title}\n")
+        result_text.insert(tk.END, f"   {link}\n")
+        result_text.insert(tk.END, f"   {snippet}\n\n")
+
+# Create the main application window
+app = tk.Tk()
+app.title("Google Business Opportunities")
+
+# Create and pack a label
+label = tk.Label(app, text="Enter your query:")
+label.pack()
+
+# Create and pack an entry field
+search_entry = tk.Entry(app)
+search_entry.pack()
+
+# Create and pack a button to trigger the search
+search_button = tk.Button(app, text="Search", command=fetch_google_results)
+search_button.pack()
+
+# Create a scrolled text widget to display the results
+result_text = scrolledtext.ScrolledText(app, wrap=tk.WORD, width=50, height=20)
+result_text.pack()
+
+# Start the GUI application
+app.mainloop()
+
+
+# CREATED WITH THE HELP OF OPEN-AI CHAT GPT: https://chat.openai.com/chat
